@@ -127,8 +127,8 @@ const Chat = ({ roomId, userName, socket, isMobile }) => {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="p-4 border-b bg-indigo-50 flex justify-between items-center">
+    <div className="flex flex-col  h-full">
+      <div className="p-4 border-b bg-indigo-50 rounded-lg flex justify-between items-center">
         <h2 className="text-lg font-semibold text-indigo-700">Chat Room</h2>
         <button
           onClick={toggleMembersList}
@@ -191,7 +191,7 @@ const Chat = ({ roomId, userName, socket, isMobile }) => {
         </div>
       )}
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 rounded-lg overflow-hidden">
         {/* Desktop members list (always visible on desktop) */}
         <div className="hidden md:block w-64 p-4 bg-white border-r overflow-y-auto">
           <h3 className="text-md text-black font-semibold mb-3 flex items-center">

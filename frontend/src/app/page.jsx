@@ -241,7 +241,7 @@ const HomePage = () => {
           </div>
 
           {/* Chat component - now positioned at the extreme right */}
-          <div className="md:order-last bg-white text-blue">
+          <div className="md:order-last bg-white rounded-lg text-blue">
             <Chat roomId={roomId} userName={userName} socket={socket} />
           </div>
         </div>
