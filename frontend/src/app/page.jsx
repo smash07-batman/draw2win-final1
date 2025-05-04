@@ -226,8 +226,8 @@ const HomePage = () => {
         <div className="flex flex-col md:flex-row gap-4 relative">
           {/* Game area would go here */}
           <div className="flex-1 bg-white rounded-lg shadow-md p-4 min-h-[400px] md:min-h-[600px]">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold">Room: {roomId}</h2>
+            <div className="flex justify-between items-center rounded-lg border-2 border-gray-400 p-3 border-dashed mb-4">
+              <h2 className="text-xl text-black font-bold">Room: {roomId}</h2>
               <button
                 onClick={handleLeaveRoom}
                 className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
@@ -235,7 +235,7 @@ const HomePage = () => {
                 Leave Room
               </button>
             </div>
-            <div className="h-[300px] md:h-[500px] flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg">
+            <div className="h-[300px] md:h-[500px] flex items-center justify-center rounded-lg">
               <GameArea roomId={roomId} userName={userName} socket={socket} />
             </div>
           </div>

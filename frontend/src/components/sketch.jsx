@@ -13,7 +13,7 @@ import { ReactSketchCanvas } from "react-sketch-canvas";
 
 const DrawingCanvas = forwardRef(
   (
-    { width = "500px", height = "430px", readOnly = false, onDrawingChange },
+    { width = "600px", height = "500px", readOnly = false, onDrawingChange },
     ref
   ) => {
     const canvasRef = useRef(null);
@@ -86,7 +86,7 @@ const DrawingCanvas = forwardRef(
     };
 
     return (
-      <div className="flex justify-center items-center">
+      <div className="flex flex-col justify-center  items-center">
         <ReactSketchCanvas
           ref={canvasRef}
           style={isEraser ? eraserStyles : styles}
@@ -102,7 +102,7 @@ const DrawingCanvas = forwardRef(
         />
 
         {!readOnly && (
-          <div className="flex flex-col gap-2 ml-4">
+          <div className="flex ml-4 mt-5">
             <div className="flex gap-2">
               <Button size="icon" style={{ backgroundColor: strokeColor }}>
                 <input
@@ -152,11 +152,12 @@ const DrawingCanvas = forwardRef(
               value={strokeWidth}
               min="1"
               max="50"
-              className="p-2 border rounded w-14"
+              className="p-2 text-black border rounded w-14"
               aria-label="Stroke width"
             />
 
             <Button
+              className="text-black"
               size="icon"
               type="button"
               disabled={isEraser}
@@ -180,6 +181,7 @@ const DrawingCanvas = forwardRef(
 
             <div className="flex gap-2">
               <Button
+                className="text-black"
                 onClick={handleundo}
                 size="icon"
                 type="button"
@@ -189,6 +191,7 @@ const DrawingCanvas = forwardRef(
                 <Undo />
               </Button>
               <Button
+                className="text-black"
                 onClick={handleredo}
                 size="icon"
                 type="button"
@@ -200,6 +203,7 @@ const DrawingCanvas = forwardRef(
             </div>
 
             <Button
+              className="text-black"
               onClick={handleclear}
               size="icon"
               type="button"

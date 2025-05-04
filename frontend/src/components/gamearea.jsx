@@ -255,41 +255,43 @@ const GameArea = ({ roomId, userName, socket }) => {
     switch (gameState) {
       case STATES.WAITING:
         return (
-          <div className="flex flex-col h-[400px] w-[600px] bg-gray-200 items-center space-y-6 p-6">
-            <h2 className="text-2xl font-bold text-indigo-600">
-              Waiting for Players
-            </h2>
+          <div className="flex gap-5 h-[400px] w-[860px] bg-gray-200 space-y-6 p-6">
+            <div className="w-full">
+              <h2 className="text-2xl font-bold text-indigo-600">
+                Waiting for Players
+              </h2>
 
-            <div className="w-full max-w-md">
-              <h3 className="text-lg font-medium mb-2 flex items-center">
-                <User size={18} className="mr-2 text-indigo-500" />
-                Players ({players.length})
-              </h3>
-              <ul className="bg-indigo-50 rounded-md p-4 divide-y divide-indigo-100">
-                {players.map((player) => (
-                  <li
-                    key={player.id}
-                    className="flex items-center text-black justify-between py-2"
-                  >
-                    <div className="flex items-center ">
-                      <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-3 text-xs font-medium">
-                        {player.name.charAt(0).toUpperCase()}
+              <div className="w-full max-w-md">
+                <h3 className="text-lg text-gray-700 font-medium mb-2 flex items-center">
+                  <User size={18} className="mr-2 text-indigo-500" />
+                  Players ({players.length})
+                </h3>
+                <ul className="bg-indigo-50 rounded-md p-4 divide-y divide-indigo-100">
+                  {players.map((player) => (
+                    <li
+                      key={player.id}
+                      className="flex items-center text-black justify-between py-2"
+                    >
+                      <div className="flex items-center ">
+                        <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-3 text-xs font-medium">
+                          {player.name.charAt(0).toUpperCase()}
+                        </div>
+                        <span className="font-medium ">
+                          {player.id === socket?.id
+                            ? `${player.name} (You)`
+                            : player.name}
+                        </span>
                       </div>
-                      <span className="font-medium ">
-                        {player.id === socket?.id
-                          ? `${player.name} (You)`
-                          : player.name}
-                      </span>
-                    </div>
-                    {player.isLeader && (
-                      <span className="ml-2 text-xs bg-yellow-500 text-white px-2 py-0.5 rounded flex items-center">
-                        <Crown size={12} className="mr-1" />
-                        Leader
-                      </span>
-                    )}
-                  </li>
-                ))}
-              </ul>
+                      {player.isLeader && (
+                        <span className="ml-2 text-xs bg-yellow-500 text-white px-2 py-0.5 rounded flex items-center">
+                          <Crown size={12} className="mr-1" />
+                          Leader
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
             {isLeader && players.length >= 2 && (
@@ -396,7 +398,7 @@ const GameArea = ({ roomId, userName, socket }) => {
       case STATES.PROMPT_SELECTION:
         return (
           <div className="flex flex-col items-center space-y-6 p-6">
-            <div className="w-full flex justify-between items-center bg-indigo-50 p-3 rounded-lg">
+            <div className="w-[820px] flex justify-between items-center bg-indigo-50 p-3 rounded-lg">
               <div className="flex items-center px-3 py-1 bg-white rounded-md shadow-sm">
                 <Clock size={18} className="mr-2 text-indigo-500" />
                 <span className="font-medium text-gray-700">{countdown}s</span>
@@ -463,7 +465,7 @@ const GameArea = ({ roomId, userName, socket }) => {
       case STATES.DRAWING:
         return (
           <div className="flex flex-col items-center space-y-6 p-4">
-            <div className="w-full flex justify-between items-center bg-indigo-50 p-3 rounded-lg">
+            <div className="w-[840px] flex justify-between items-center bg-indigo-50 p-3 rounded-lg">
               <div className="flex items-center px-3 py-1 bg-white rounded-md shadow-sm">
                 <Clock size={18} className="mr-2 text-indigo-500" />
                 <span className="font-medium text-gray-700">{countdown}s</span>
@@ -481,7 +483,7 @@ const GameArea = ({ roomId, userName, socket }) => {
               </div>
             </div>
 
-            <div className="relative w-full max-w-lg aspect-[4/3] bg-white shadow-md overflow-hidden rounded-lg border-2 border-indigo-200">
+            <div className="relative w-[800px] max-w-lg aspect-[4/3] bg-white shadow-md overflow-hidden rounded-lg border-2 border-indigo-200">
               {activePlayer?.id === socket?.id ? (
                 <DrawingCanvas
                   ref={drawingCanvasRef}
@@ -525,7 +527,7 @@ const GameArea = ({ roomId, userName, socket }) => {
       case STATES.SUBMITTING_LIES:
         return (
           <div className="flex flex-col items-center space-y-6 p-6">
-            <div className="w-full flex justify-between items-center bg-indigo-50 p-3 rounded-lg">
+            <div className="w-[820px] flex justify-between items-center bg-indigo-50 p-3 rounded-lg">
               <div className="flex items-center px-3 py-1 bg-white rounded-md shadow-sm">
                 <Clock size={18} className="mr-2 text-indigo-500" />
                 <span className="font-medium text-gray-700">{countdown}s</span>
@@ -668,13 +670,13 @@ const GameArea = ({ roomId, userName, socket }) => {
 
       case STATES.RESULTS:
         return (
-          <div className="flex flex-col items-center space-y-6 p-6">
+          <div className="flex w-[900px] flex-col items-center space-y-6 p-4">
             <h2 className="text-2xl font-bold text-indigo-600 flex items-center">
               <Trophy size={24} className="mr-2" />
               Round Results
             </h2>
 
-            <div className="text-center mb-4 bg-indigo-50 p-3 rounded-lg w-full max-w-md">
+            <div className="text-center mb-4 bg-indigo-50 rounded-lg w-full max-w-md">
               <h3 className="text-lg text-indigo-700 font-medium">
                 {activePlayer?.name}'s drawing of:{" "}
                 <span className="font-bold text-indigo-700">
@@ -693,92 +695,98 @@ const GameArea = ({ roomId, userName, socket }) => {
               </div>
             )}
 
-            <div className="w-full max-w-md">
-              <h3 className="text-lg font-medium mb-2 flex items-center">
-                <Award size={18} className="mr-2 text-indigo-500" />
-                Answers & Votes
-              </h3>
-              <ul className="bg-white text-gray-700 rounded-md divide-y divide-gray-200 border border-gray-200 shadow-sm">
-                {roundResults?.lies.map((lie) => (
-                  <li key={lie.id} className="p-4">
-                    <div className="flex justify-between items-center mb-2">
-                      <div className="font-medium text-lg">{lie.text}</div>
-                      <div className="text-sm bg-indigo-100 px-3 py-1 rounded-full text-indigo-700 font-medium">
-                        {lie.votes?.length || 0} vote
-                        {lie.votes?.length !== 1 ? "s" : ""}
-                      </div>
-                    </div>
-                    <div className="text-sm text-gray-700 flex justify-between items-center">
-                      <div className="flex items-center">
-                        <span className="mr-2">by</span>
-                        {lie.isCorrect ? (
-                          <span className="text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded">
-                            TRUTH
-                          </span>
-                        ) : (
-                          <span className="font-medium">{lie.playerName}</span>
-                        )}
-                      </div>
-                      <div>
-                        {lie.isCorrect ? (
-                          <span className="text-green-600 font-medium">
-                            +500 pts per vote
-                          </span>
-                        ) : (
-                          <span className="text-indigo-600 font-medium">
-                            +100 pts per vote
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="mt-3 text-sm bg-gray-50 p-2 rounded">
-                      <span className="font-medium">Voted by: </span>
-                      {lie.votes?.length
-                        ? lie.votes.map((v) => v.voterName).join(", ")
-                        : "No one"}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="w-full max-w-md mt-4">
-              <h3 className="text-lg text-indigo-500 font-medium mb-2 flex items-center">
-                <Trophy size={18} className="mr-2 text-indigo-500" />
-                Scoreboard
-              </h3>
-              <ul className="bg-white text-gray-700 rounded-md divide-y divide-gray-200 border border-gray-200 shadow-sm">
-                {roundResults?.scores &&
-                  Object.entries(roundResults.scores)
-                    .sort(([, a], [, b]) => b.total - a.total)
-                    .map(([playerId, scoreData], index) => (
-                      <li
-                        key={playerId}
-                        className="p-3 flex justify-between items-center"
-                      >
-                        <div className="flex items-center">
-                          <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-3 text-xs font-medium">
-                            {index + 1}
-                          </div>
-                          <span className="font-medium">{scoreData.name}</span>
-                          {playerId === socket?.id && (
-                            <span className="ml-1 text-gray-500">(You)</span>
-                          )}
+            <div className="flex gap-5">
+              <div className="w-full max-w-md">
+                <h3 className="text-lg text-indigo-500 font-medium mb-2 flex items-center">
+                  <Award size={18} className="mr-2 text-indigo-500" />
+                  Answers & Votes
+                </h3>
+                <ul className="bg-white text-gray-700 rounded-md divide-y divide-gray-200 border border-gray-200 shadow-sm">
+                  {roundResults?.lies.map((lie) => (
+                    <li key={lie.id} className="p-4">
+                      <div className="flex justify-between items-center mb-2">
+                        <div className="font-medium text-lg">{lie.text}</div>
+                        <div className="text-sm bg-indigo-100 px-3 py-1 rounded-full text-indigo-700 font-medium">
+                          {lie.votes?.length || 0} vote
+                          {lie.votes?.length !== 1 ? "s" : ""}
                         </div>
+                      </div>
+                      <div className="text-sm text-gray-700 flex justify-between items-center">
                         <div className="flex items-center">
-                          <span className="font-bold text-lg">
-                            {scoreData.total} pts
-                          </span>
-                          {scoreData.roundScore > 0 && (
-                            <span className="ml-2 text-green-600 bg-green-50 px-2 py-0.5 rounded">
-                              +{scoreData.roundScore}
+                          <span className="mr-2">by</span>
+                          {lie.isCorrect ? (
+                            <span className="text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded">
+                              TRUTH
+                            </span>
+                          ) : (
+                            <span className="font-medium">
+                              {lie.playerName}
                             </span>
                           )}
                         </div>
-                      </li>
-                    ))}
-              </ul>
+                        <div>
+                          {lie.isCorrect ? (
+                            <span className="text-green-600 font-medium">
+                              +500 pts per vote
+                            </span>
+                          ) : (
+                            <span className="text-indigo-600 font-medium">
+                              +100 pts per vote
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="mt-3 text-sm bg-gray-50 p-2 rounded">
+                        <span className="font-medium">Voted by: </span>
+                        {lie.votes?.length
+                          ? lie.votes.map((v) => v.voterName).join(", ")
+                          : "No one"}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="w-full max-w-md mt-4">
+                <h3 className="text-lg text-indigo-500 font-medium mb-2 flex items-center">
+                  <Trophy size={18} className="mr-2 text-indigo-500" />
+                  Scoreboard
+                </h3>
+                <ul className="bg-white text-gray-700 rounded-md divide-y divide-gray-200 border border-gray-200 shadow-sm">
+                  {roundResults?.scores &&
+                    Object.entries(roundResults.scores)
+                      .sort(([, a], [, b]) => b.total - a.total)
+                      .map(([playerId, scoreData], index) => (
+                        <li
+                          key={playerId}
+                          className="p-3 flex justify-between items-center"
+                        >
+                          <div className="flex items-center">
+                            <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-3 text-xs font-medium">
+                              {index + 1}
+                            </div>
+                            <span className="font-medium">
+                              {scoreData.name}
+                            </span>
+                            {playerId === socket?.id && (
+                              <span className="ml-1 text-gray-500">(You)</span>
+                            )}
+                          </div>
+                          <div className="flex items-center">
+                            <span className="font-bold text-lg">
+                              {scoreData.total} pts
+                            </span>
+                            {scoreData.roundScore > 0 && (
+                              <span className="ml-2 text-green-600 bg-green-50 px-2 py-0.5 rounded">
+                                +{scoreData.roundScore}
+                              </span>
+                            )}
+                          </div>
+                        </li>
+                      ))}
+                </ul>
+              </div>
             </div>
 
             {isLeader && (
