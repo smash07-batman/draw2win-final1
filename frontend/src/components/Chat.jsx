@@ -7,7 +7,6 @@ const SIGNALING_SERVER =
 
 // Function to generate random avatar URL
 const getRandomAvatar = (name) => {
-  // Using DiceBear avatars API
   const seed = name || Math.random().toString(36).substring(2, 8);
   return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}`;
 };
@@ -29,7 +28,6 @@ const Chat = ({ roomId, userName, socket, isMobile }) => {
   const [socketId, setSocketId] = useState(null);
   const [members, setMembers] = useState([]);
   const [isLeader, setIsLeader] = useState(false);
-  const [players, setPlayers] = useState([]);
   const [showMembers, setShowMembers] = useState(false);
   const socketRef = useRef(socket);
   const messagesEndRef = useRef();
@@ -39,51 +37,32 @@ const Chat = ({ roomId, userName, socket, isMobile }) => {
   };
 
   useEffect(() => {
-    // Update ref when socket prop changes
     socketRef.current = socket;
-
     if (!socket) return;
 
     console.log("Using socket from parent with ID:", socket.id);
     setSocketId(socket.id);
 
-    // No need to join-chat here as the parent component handles joining
-
-    // Set up event listeners
     socket.on("chat-message", (message) => {
       console.log("Received message:", message);
       setMessages((prev) => [...prev, message]);
     });
 
-    // Listen for room-members event
     socket.on("room-members", (memberList) => {
       console.log("Room members received:", memberList);
       setMembers(memberList);
 
-      // Convert members to players
-      const playersList = memberList.map((member) => ({
-        id: member.id,
-        name: member.name,
-        isLeader: member.isLeader,
-        avatar: getRandomAvatar(member.name),
-      }));
-      setPlayers(playersList);
-
-      // Check if current user is the leader
       const currentUser = memberList.find((m) => m.id === socket.id);
       setIsLeader(currentUser?.isLeader || false);
     });
 
     socket.on("kicked-from-room", ({ roomId, reason }) => {
       alert(reason);
-      // Store the kicked status in sessionStorage for the homepage to display
       sessionStorage.setItem("wasKicked", "true");
-      // Redirect to home page
       window.location.href = "/";
     });
 
     return () => {
-      // Cleanup event listeners but don't disconnect (parent component handles that)
       if (socket) {
         socket.off("chat-message");
         socket.off("room-members");
@@ -127,7 +106,7 @@ const Chat = ({ roomId, userName, socket, isMobile }) => {
   };
 
   return (
-    <div className="flex flex-col  h-full">
+    <div className="flex flex-col h-full">
       <div className="p-4 border-b bg-indigo-50 rounded-lg flex justify-between items-center">
         <h2 className="text-lg font-semibold text-indigo-700">Chat Room</h2>
         <button
@@ -139,7 +118,7 @@ const Chat = ({ roomId, userName, socket, isMobile }) => {
         </button>
       </div>
 
-      {/* Mobile members list (shown when toggled) */}
+      {/* Mobile members list */}
       {isMobile && showMembers && (
         <div className="p-4 border-b bg-gray-50">
           <h3 className="text-md font-semibold mb-2 flex items-center">
@@ -192,7 +171,7 @@ const Chat = ({ roomId, userName, socket, isMobile }) => {
       )}
 
       <div className="flex flex-1 rounded-lg overflow-hidden">
-        {/* Desktop members list (always visible on desktop) */}
+        {/* Desktop members list */}
         <div className="hidden md:block w-64 p-4 bg-white border-r overflow-y-auto">
           <h3 className="text-md text-black font-semibold mb-3 flex items-center">
             <Users size={16} className="mr-2" />
@@ -202,8 +181,8 @@ const Chat = ({ roomId, userName, socket, isMobile }) => {
             {members.map((member) => (
               <li
                 key={member.id}
-                className={`flex justify-between items-center bg-indigo-500 text-sm py-2 px-2 rounded ${
-                  member.id === socketId ? "bg-indigo-500" : "hover:indigo-400"
+                className={`flex justify-between items-center text-sm py-2 px-2 rounded ${
+                  member.id === socketId ? "bg-indigo-500 text-white" : ""
                 }`}
               >
                 <div className="flex items-center">
@@ -211,11 +190,7 @@ const Chat = ({ roomId, userName, socket, isMobile }) => {
                     {getInitials(member.name)}
                   </div>
                   <div>
-                    <div
-                      className={
-                        member.id === socketId ? "font-bold text-white" : ""
-                      }
-                    >
+                    <div className={member.id === socketId ? "font-bold" : ""}>
                       {member.id === socketId ? "You" : member.name}
                     </div>
                     {member.isLeader && (
@@ -240,9 +215,10 @@ const Chat = ({ roomId, userName, socket, isMobile }) => {
           </ul>
         </div>
 
-        {/* Chat messages */}
-        <div className="flex-1 flex flex-col">
-          <div className="flex-1 p-4 overflow-y-auto">
+        {/* Chat section */}
+        <div className="flex-1 flex flex-col bg-white">
+          {/* Messages area with fixed height */}
+          <div className="p-4 overflow-y-auto h-[80vh]">
             {messages.length === 0 ? (
               <div className="text-center text-black mt-4">
                 No messages yet. Start the conversation!
@@ -262,7 +238,7 @@ const Chat = ({ roomId, userName, socket, isMobile }) => {
                     className={`rounded-lg p-2 mt-1 text-sm max-w-[80%] ${
                       msg.socketId === socketId
                         ? "bg-indigo-500 text-white ml-auto"
-                        : "bg-gray-500"
+                        : "bg-gray-500 text-white"
                     }`}
                   >
                     {msg.text}
@@ -273,6 +249,7 @@ const Chat = ({ roomId, userName, socket, isMobile }) => {
             <div ref={messagesEndRef} />
           </div>
 
+          {/* Input box */}
           <form onSubmit={sendMessage} className="p-3 border-t">
             <div className="flex gap-2">
               <input
@@ -284,7 +261,7 @@ const Chat = ({ roomId, userName, socket, isMobile }) => {
               />
               <button
                 type="submit"
-                className="px-3 py-2 text-sm bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                className="px-3 py-2 text-sm bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center"
               >
                 <Send size={16} />
               </button>

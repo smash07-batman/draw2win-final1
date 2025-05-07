@@ -235,7 +235,7 @@ const HomePage = () => {
                 Leave Room
               </button>
             </div>
-            <div className="h-[300px] md:h-[500px] flex items-center justify-center rounded-lg">
+            <div className="h-[300px] md:h-[80vh] flex items-center justify-center rounded-lg">
               <GameArea roomId={roomId} userName={userName} socket={socket} />
             </div>
           </div>
