@@ -190,7 +190,11 @@ const Chat = ({ roomId, userName, socket, isMobile }) => {
                     {getInitials(member.name)}
                   </div>
                   <div>
-                    <div className={member.id === socketId ? "font-bold" : ""}>
+                    <div
+                      className={
+                        member.id === socketId ? "font-bold" : "text-black"
+                      }
+                    >
                       {member.id === socketId ? "You" : member.name}
                     </div>
                     {member.isLeader && (
