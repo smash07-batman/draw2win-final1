@@ -6,14 +6,7 @@ const socketIo = require("socket.io");
 const app = express();
 const cors = require("cors");
 
-const allowedOrigins = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const allowedOrigins = ["http://localhost:3000", "*"]; // Your frontend URL
 
 const corsOptions = {
   origin: function (origin, callback) {
